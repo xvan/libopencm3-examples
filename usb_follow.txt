@@ -1,1 +1,34 @@
-usb_init es 
+usb_init
+
+st_usbfs_v1_usb_driver
+
+.init:
+   peripherar clock enable  RCC_USB
+   wipe: USB_CNTR_REG, USB_BTABLE_REG , USB_ISTR_REG
+   enable interrupts USB_CNTR_REG: USB_CNTR_RESETM | USB_CNTR_CTRM | USB_CNTR_SUSPM | USB_CNTR_WKUPM;
+   return allocated memory for _usbd_device;
+
+
+.set_address:
+    USB_DADDR_REG = set address bits (from host?) and set USB_DADDR_EF = 1
+
+
+.ep_setup 
+    Bit alto de addr es "DIR", el resto 0x7F el endpoint
+    Correlacion 1<->1 address con endpoint
+    set transfer type (bulk, etc)
+
+    if dir TX
+    Set tx address (y la Btable))
+    Clear tx dtog (set 1???)
+    Foce initial endpoint state as NAK?
+    Increase PM->Top.
+
+    if dir RX
+    set rx address
+    Calculate RX size????
+    Celar dtobg
+    set state to VALID
+    INGREASE pm-tOP
+
+
