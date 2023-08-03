@@ -19,20 +19,18 @@ message(PROJECT_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
 
 include(toolchain-arm-none-eabi)
 
-set(LINKER_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/examples/stm32/f1/stm32-h103")
-set(STARTUP_ASSEMBLY "${CMAKE_CURRENT_SOURCE_DIR}/libopencm3/ld/linker.ld.S")
+set(LINKER_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/examples/stm32/f1/stm32-h103/stm32-h103.ld")
+set(STARTUP_ASSEMBLY "")
 include(stm32fx)
 
 project(libopencm3 C ASM)
 
+add_definitions(-DSTM32F1)
+include_directories(libopencm3/include)
+link_directories("${CMAKE_CURRENT_SOURCE_DIR}/libopencm3/lib")
 add_subdirectory(libopencm3)
-#add_subdirectory(libopencm3)
+add_subdirectory(examples/stm32/f1/stm32-h103)
 
-#include_directories(
-#  libopencm3/include
-#)
-
-#add_definitions(-DSTM32F1)
 
 #add_library(STARTUP OBJECT ${STARTUP_ASSEMBLY})
 
